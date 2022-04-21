@@ -14,7 +14,7 @@ def fixture_reset_settings():
 
 
 @pytest.fixture(scope="session", autouse=True)
-def fixture_db():
+def fixture_db(fixture_reset_settings):
     import aiob.api.db
     aiob.api.db.init_db()
     return aiob.api.db
