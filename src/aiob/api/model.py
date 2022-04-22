@@ -1,39 +1,35 @@
 from __future__ import annotations
 from abc import ABC, abstractmethod
-from typing import List
+from typing import List, Optional
 from dataclasses import dataclass, field
 import datetime
 
 
 @dataclass
-class Meta:
-    title: str
+class Data:
+    source: SourceBase
+    id: str
+    content: str
+    title: str = ""
+    dests: List[DestinationBase] = field(default_factory=list)
     slug: str = ""
     author: str = ""
-    create_time: datetime.datetime = None
-    update_time: datetime.datetime = None
+    create_time: Optional[datetime.datetime] = None
+    update_time: Optional[datetime.datetime] = None
     feature_image: str = ""
     category: str = ""
     tags: List[str] = field(default_factory=list)
 
     def __post_init__(self):
         if self.title == "":
-            raise TypeError("Title should be a blank string!")
+            self.title = self.id
 
 
-@dataclass
-class Data:
-    id: str
-    content: str
-    meta: Meta
-    dests: List[DestinationABC] = field(default_factory=list)
-
-
-class SourceABC(ABC):
-    name: str = None
+class SourceBase:
+    name: str
 
     @abstractmethod
-    async def get_opt_seq(cls) -> List[Opt]:
+    async def get_opt_seq(cls) -> List[OptBase]:
         pass
 
     @classmethod
@@ -42,7 +38,7 @@ class SourceABC(ABC):
 
 
 @dataclass
-class DestinationABC(ABC):
+class DestinationBase:
     name: str
 
     @abstractmethod
@@ -50,49 +46,22 @@ class DestinationABC(ABC):
         pass
 
     @abstractmethod
-    async def delete(cls):
+    async def delete(cls, data: Data):
         pass
 
     @abstractmethod
-    async def change(cls):
+    async def change(cls, data: Data):
         pass
 
 
 @dataclass
-class Opt(ABC):
-    src_data: Data
+class OptBase:
+    data: Data
 
     @abstractmethod
-    def execute(self):
+    async def execute(self):
         pass
 
 
 class NoDestException(Exception):
     pass
-
-
-from aiob.api import db  # noqa
-
-
-class AddOpt(Opt):
-    def execute(self):
-        if self.dests == []:
-            raise NoDestException(self)
-        for dest in self.dests:
-            dest.add(self.src_data)
-        db.add_data(self.src_data)
-
-
-class DelOpt(Opt):
-    def execute(self):
-        if self.dests == []:
-            raise NoDestException(self)
-        for dest in self.dests:
-            dest.delete(self.src_data)
-        db.del_data(self.src_data)
-
-
-class ChangeOpt(Opt):
-    def execute(self):
-        # TODO
-        pass

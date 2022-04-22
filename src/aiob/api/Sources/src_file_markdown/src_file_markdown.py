@@ -1,6 +1,7 @@
 from typing import List
 from aiob.api.plugin_loader import SourceClass
-from aiob.api.model import AddOpt, ChangeOpt, Meta, Opt, SourceABC, Data
+from aiob.api.model import OptBase, SourceBase, Data
+from aiob.api.opts import AddOpt, ChangeOpt
 from aiob.api import config
 from aiob.api import db
 import os
@@ -15,12 +16,12 @@ def get_isotime(timestamp) -> str:
 
 
 @SourceClass
-class markdown(SourceABC):
-    name = "markdown"
+class markdown(SourceBase):
+    name = "src_file_markdown"
 
     @classmethod
-    async def get_opt_seq(cls) -> List[Opt]:
-        OptSeq: List[Opt] = []
+    async def get_opt_seq(cls) -> List[OptBase]:
+        OptSeq: List[OptBase] = []
         tasks = []
         paths = config.settings.get(("Source.{}.paths").format(cls.name), [])
         for root in paths:
@@ -28,31 +29,27 @@ class markdown(SourceABC):
                 for file in filenames:
                     mdpath = pathlib.Path(os.path.join(root, file))
                     tasks.append(cls.get_opt(mdpath))
-        OptSeq: List[Opt] = await asyncio.gather(*tasks)
+        OptSeq: List[OptBase] = await asyncio.gather(*tasks)
         return OptSeq
 
     @classmethod
-    async def get_opt(cls, mdpath: pathlib.Path) -> Opt:
+    async def get_opt(cls, mdpath: pathlib.Path) -> OptBase:
         async with aiofiles.open(mdpath, "r") as f:
-            mdpath.name
-            title = mdpath.name
-            id = cls.generate_id(title)
+            title = mdpath.name.removesuffix(".md")
             content = await f.read()
-            meta = cls.parse_meta(title, content)
-            stat = mdpath.stat()
-            meta.create_time = get_isotime(stat.st_ctime)
-            meta.update_time = get_isotime(stat.st_mtime)
-            data = Data(id, content, meta)
-        old = db.query_src_data_by_id(cls, id)
+            data = Data(cls, id=title, content=content)
+            cls.parse_meta(data, mdpath, title, content)
+        old = db.query_src_data_by_id(cls, data.id)
         if old is None:
             return AddOpt(data)
-        data.dests = old["dests"]
-        if meta.update_time <= old["update_time"]:
+        if data.update_time <= old.update_time:
             return
+        data.dests = old.dests
         return ChangeOpt(data)
 
     @classmethod
-    def parse_meta(cls, title: str, content: str) -> Meta:
-        meta = Meta(title=title)
+    def parse_meta(cls, data: Data, mdpath: pathlib.Path, title: str, content: str):
+        stat = mdpath.stat()
+        data.create_time = get_isotime(stat.st_ctime)
+        data.update_time = get_isotime(stat.st_mtime)
         # TODO
-        return meta

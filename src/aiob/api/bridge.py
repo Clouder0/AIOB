@@ -1,10 +1,10 @@
 import asyncio
-from typing import List
-from aiob.api.model import Opt
+from typing import Iterable, List
+from aiob.api.model import OptBase
 from aiob.api.plugin_loader import src_list
 
 
-async def get_all_opt_seq() -> List[Opt]:
+async def get_all_opt_seq() -> List[OptBase]:
     tasks = [x.get_opt_seq() for x in src_list]
     opt_seqs = await asyncio.gather(*tasks)
     all_opt_seq = []
@@ -13,7 +13,7 @@ async def get_all_opt_seq() -> List[Opt]:
     return all_opt_seq
 
 
-async def exec_opts(opts: List[Opt]):
+async def exec_opts(opts: Iterable[OptBase]):
     # TODO
     for x in opts:
         x.execute()

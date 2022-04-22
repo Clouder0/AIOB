@@ -1,10 +1,13 @@
-from typing import Dict, Iterable
-from aiob.api import config
-from aiob.api.model import Data, SourceABC
+from typing import Dict, Iterable, List, Optional
+from aiob.api import config, plugin_loader
+from aiob.api.model import Data, DestinationBase, SourceBase
 from tinydb import TinyDB, where
 from tinydb.middlewares import CachingMiddleware
 from tinydb.storages import JSONStorage
 import atexit
+
+
+db: Optional[TinyDB] = None
 
 
 def init_db():
@@ -12,33 +15,51 @@ def init_db():
     db = TinyDB(config.settings.db_path, storage=CachingMiddleware(JSONStorage))
 
 
-def query_src_datas(src: SourceABC):
-    return db.search(where("Source") == src.name)
+def query_src_datas(src: SourceBase) -> List[Data]:
+    return [parse_to_data(x) for x in db.search(where("source") == src.name)]
 
 
-def query_src_data_by_id(src: SourceABC, id: str):
-    ret = db.search(where("Source") == src.name and where("id") == id)
+def query_src_data_by_id(src: SourceBase, id: str) -> Optional[Data]:
+    ret = db.search(where("source") == src.name and where("id") == id)
     if len(ret) <= 0:
         return None
-    return ret[0]
+    return parse_to_data(ret[0])
 
 
-def __parse_data__(data: Data) -> Dict:
-    return {"id": data.id, "content": data.content, "dests": data.dests, **data.meta.__dict__}
+def parse_value(obj):
+    if isinstance(obj, type) and (
+            issubclass(obj, SourceBase) or issubclass(obj, DestinationBase)):
+        return obj.name
+    if isinstance(obj, list):
+        return [parse_value(x) for x in obj]
+    return obj
+
+
+def parse_from_data(data: Data) -> Dict:
+    return {key: parse_value(value) for key, value in data.__dict__.items() if not key.startswith("__")}
+
+
+def parse_to_data(dict: Dict) -> Data:
+    data = Data(**dict)
+    data.source = plugin_loader.get_source_from_name(data.source)
+    data.dests = [plugin_loader.get_destination_from_name(
+        x) for x in data.dests]
+    return data
 
 
 def add_data(data: Data):
-    db.insert(__parse_data__(data))
+    db.insert(parse_from_data(data))
 
 
 def add_datas(datas: Iterable[Data]):
-    db.insert_multiple([__parse_data__(data) for data in datas])
+    db.insert_multiple([parse_from_data(data) for data in datas])
 
 
 def del_data(data: Data):
-    db.remove(where("id") == data.id)
+    db.remove(where("id") == data.id and where("source") == data.source.name)
 
 
 @atexit.register
 def close_db():
-    db.close()
+    if db is not None and db._opened:
+        db.close()

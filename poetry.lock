@@ -154,14 +154,6 @@ optional = false
 python-versions = "*"
 
 [[package]]
-name = "mccabe"
-version = "0.7.0"
-description = "McCabe checker, plugin for flake8"
-category = "dev"
-optional = false
-python-versions = ">=3.6"
-
-[[package]]
 name = "multidict"
 version = "6.0.2"
 description = "multidict implementation"
@@ -221,37 +213,6 @@ snowballstemmer = "*"
 
 [package.extras]
 toml = ["toml"]
-
-[[package]]
-name = "pyflakes"
-version = "2.4.0"
-description = "passive checker of Python programs"
-category = "dev"
-optional = false
-python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
-
-[[package]]
-name = "pylama"
-version = "8.3.8"
-description = "Code audit tool for python"
-category = "dev"
-optional = false
-python-versions = ">=3.7"
-
-[package.dependencies]
-mccabe = ">=0.6.1"
-pycodestyle = ">=2.8.0"
-pydocstyle = ">=6.1.1"
-pyflakes = ">=2.4.0"
-
-[package.extras]
-all = ["pylint", "eradicate", "radon", "mypy", "vulture"]
-eradicate = ["eradicate"]
-mypy = ["mypy"]
-pylint = ["pylint"]
-radon = ["radon"]
-tests = ["pytest", "pytest-mypy", "eradicate (>=2.0.0)", "radon (>=5.1.0)", "mypy", "pylint (>=2.11.1)", "pylama-quotes", "vulture", "types-setuptools"]
-vulture = ["vulture"]
 
 [[package]]
 name = "pyparsing"
@@ -361,7 +322,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "5e2343951c879d7b280d1e60bd58a15b5bd1127ce0cdc0f6a03f26bb36ffb083"
+content-hash = "f6de5848141507e7ccd5d80170d0a3df5a343675d16f05f39179f047b8528aef"
 
 [metadata.files]
 aiofiles = [
@@ -586,10 +547,6 @@ iniconfig = [
     {file = "iniconfig-1.1.1-py2.py3-none-any.whl", hash = "sha256:011e24c64b7f47f6ebd835bb12a743f2fbe9a26d4cecaa7f53bc4f35ee9da8b3"},
     {file = "iniconfig-1.1.1.tar.gz", hash = "sha256:bc3af051d7d14b2ee5ef9969666def0cd1a000e121eaea580d4a313df4b37f32"},
 ]
-mccabe = [
-    {file = "mccabe-0.7.0-py2.py3-none-any.whl", hash = "sha256:6c2d30ab6be0e4a46919781807b4f0d834ebdd6c6e3dca0bda5a15f863427b6e"},
-    {file = "mccabe-0.7.0.tar.gz", hash = "sha256:348e0240c33b60bbdf4e523192ef919f28cb2c3d7d5c7794f74009290f236325"},
-]
 multidict = [
     {file = "multidict-6.0.2-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:0b9e95a740109c6047602f4db4da9949e6c5945cefbad34a1299775ddc9a62e2"},
     {file = "multidict-6.0.2-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:ac0e27844758d7177989ce406acc6a83c16ed4524ebc363c1f748cba184d89d3"},
@@ -670,14 +627,6 @@ pycodestyle = [
 pydocstyle = [
     {file = "pydocstyle-6.1.1-py3-none-any.whl", hash = "sha256:6987826d6775056839940041beef5c08cc7e3d71d63149b48e36727f70144dc4"},
     {file = "pydocstyle-6.1.1.tar.gz", hash = "sha256:1d41b7c459ba0ee6c345f2eb9ae827cab14a7533a88c5c6f7e94923f72df92dc"},
-]
-pyflakes = [
-    {file = "pyflakes-2.4.0-py2.py3-none-any.whl", hash = "sha256:3bb3a3f256f4b7968c9c788781e4ff07dce46bdf12339dcda61053375426ee2e"},
-    {file = "pyflakes-2.4.0.tar.gz", hash = "sha256:05a85c2872edf37a4ed30b0cce2f6093e1d0581f8c19d7393122da7e25b2b24c"},
-]
-pylama = [
-    {file = "pylama-8.3.8-py3-none-any.whl", hash = "sha256:aff89423f7de118713f638c7f937fa83a5873e3bdf06d413661d9cb8dc5f3a7b"},
-    {file = "pylama-8.3.8.tar.gz", hash = "sha256:2dd852fe9312ea6012466cf17ff179668fc3d2716856fcfaaee8ce7876d83620"},
 ]
 pyparsing = [
     {file = "pyparsing-3.0.8-py3-none-any.whl", hash = "sha256:ef7b523f6356f763771559412c0d7134753f037822dad1b16945b7b846f7ad06"},
