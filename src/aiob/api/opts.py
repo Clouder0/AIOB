@@ -4,7 +4,7 @@ from aiob.api.model import NoDestException, OptBase  # noqa
 
 
 class AddOpt(OptBase):
-    async def execute(self):
+    async def execute(self) -> None:
         if self.data.dests == []:
             raise NoDestException(self)
         tasks = [dest.add(self.data) for dest in self.data.dests]
@@ -13,7 +13,7 @@ class AddOpt(OptBase):
 
 
 class DelOpt(OptBase):
-    async def execute(self):
+    async def execute(self) -> None:
         if self.data.dests == []:
             raise NoDestException(self)
         tasks = [dest.delete(self.data) for dest in self.data.dests]
@@ -22,7 +22,7 @@ class DelOpt(OptBase):
 
 
 class ChangeOpt(OptBase):
-    async def execute(self):
+    async def execute(self) -> None:
         if self.data.dests == []:
             raise NoDestException(self)
         tasks = [dest.change(self.data) for dest in self.data.dests]

@@ -1,4 +1,4 @@
-from dynaconf import Dynaconf, Validator  # type: ignore
+from dynaconf import Dynaconf, Validator
 import os
 # type annotations for dynaconf will be added by version 4.0.0 #TODO
 settings = Dynaconf(

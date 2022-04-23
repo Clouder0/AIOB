@@ -20,7 +20,7 @@ class Data:
     tags: List[str] = field(default_factory=list)
     extras: Dict[str, str] = field(default_factory=dict)
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         if self.title == "":
             self.title = self.id
 
@@ -40,17 +40,17 @@ class DestinationBase(ABC):
 
     @classmethod
     @abstractmethod
-    async def add(cls, data: Data):
+    async def add(cls, data: Data) -> None:
         pass
 
     @classmethod
     @abstractmethod
-    async def delete(cls, data: Data):
+    async def delete(cls, data: Data) -> None:
         pass
 
     @classmethod
     @abstractmethod
-    async def change(cls, data: Data):
+    async def change(cls, data: Data) -> None:
         pass
 
 
@@ -59,7 +59,7 @@ class OptBase(ABC):
     data: Data
 
     @abstractmethod
-    async def execute(self):
+    async def execute(self) -> None:
         pass
 
 

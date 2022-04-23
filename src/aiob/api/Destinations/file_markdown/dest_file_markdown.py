@@ -18,18 +18,18 @@ class Destination(DestinationBase):
     name = "dest_file_markdown"
 
     @classmethod
-    async def add(cls, data: Data):
+    async def add(cls, data: Data) -> None:
         path = get_path(data)
         async with aiofiles.open(path, "w+") as f:
             await f.write(data.content)
 
     @classmethod
-    async def delete(cls, data: Data):
+    async def delete(cls, data: Data) -> None:
         path = get_path(data)
         os.remove(path)
 
     @classmethod
-    async def change(cls, data: Data):
+    async def change(cls, data: Data) -> None:
         path = get_path(data)
         async with aiofiles.open(path, "w+") as f:
             await f.write(data.content)

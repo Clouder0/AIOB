@@ -7,7 +7,7 @@ from aiob.api import bridge
 import asyncio
 
 
-def select_dest(data: Data):
+def select_dest(data: Data) -> None:
     typer.echo(data)
     for i, x in enumerate(dest_list):
         typer.echo(f"{i}:{x.name}")
@@ -21,7 +21,7 @@ def select_dest(data: Data):
             break
 
 
-def main():
+def main() -> None:
     typer.echo("AIOB running...")
     db.init_db()
     opts: List[OptBase] = [x for x in asyncio.run(bridge.get_all_opt_seq()) if x is not None]

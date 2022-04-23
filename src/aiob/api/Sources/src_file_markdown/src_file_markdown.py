@@ -12,7 +12,7 @@ import aiofiles
 import pathlib
 
 
-def get_isotime(timestamp) -> str:
+def get_isotime(timestamp: float) -> str:
     return datetime.fromtimestamp(timestamp).isoformat()
 
 

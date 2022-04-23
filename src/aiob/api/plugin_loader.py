@@ -16,18 +16,18 @@ load_path: List[str] = [os.getcwd() + "/Sources",
 sys.path = sys.path + load_path
 
 
-def load_externals():
+def load_externals() -> None:
     # loading from load_path
     for x in pkgutil.walk_packages(path=load_path):
         importlib.import_module(x.name)
 
 
-def SourceClass(cls: Type[SourceBase]):
+def SourceClass(cls: Type[SourceBase]) -> Type[SourceBase]:
     src_list.append(cls)
     return cls
 
 
-def DestinationClass(cls: Type[DestinationBase]):
+def DestinationClass(cls: Type[DestinationBase]) -> Type[DestinationBase]:
     dest_list.append(cls)
     return cls
 
