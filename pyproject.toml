@@ -16,6 +16,7 @@ tinydb = "^4.7.0"
 typer = {extras = ["all"], version = "^0.4.1"}
 colorama = "^0.4.4"
 shellingham = "^1.4.0"
+python-frontmatter = "^1.0.0"
 
 [tool.poetry.dev-dependencies]
 autopep8 = "^1.6.0"

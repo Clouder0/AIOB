@@ -4,6 +4,7 @@ from aiob.api.Destinations.file_markdown import dest_file_markdown as dest
 import os
 from aiob.api import db
 from aiob.api.model import Data, OptBase
+from aiob.api.opts import ChangeOpt
 
 
 async def test_add_single_file(fixture_clean_db, fixture_clean_input_output, fixture_md_file):
@@ -33,3 +34,14 @@ async def test_remove_single_file(fixture_clean_db, fixture_md_file):
     assert x.data.content == fixture_md_file[2]
     await x.execute()
     assert db.query_src_data_by_id(src.markdown, fixture_md_file[1]) is None
+
+
+async def test_change_single_file(fixture_clean_db, fixture_clean_input_output, fixture_md_file):
+    await test_add_single_file(fixture_clean_db, fixture_clean_input_output, fixture_md_file)
+    with open(fixture_md_file[0], "w+") as f:
+        f.write("new content")
+    opts = await src.markdown.get_opt_seq()
+    x = opts[0]
+    assert type(x) == ChangeOpt
+    assert x.data.content == "new content"
+    assert x.data.dests[0].name == dest.Destination.name

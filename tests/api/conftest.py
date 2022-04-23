@@ -42,8 +42,11 @@ def fixture_clean_input_output():
 
 @pytest.fixture(params=[("title", "content"), ("title2", "")])
 def fixture_md_file(fixture_clean_input_output, request):
-    path = pathlib.Path(config.settings.get(
-        "Source.{}.paths".format(src.markdown.name))[0]) / (request.param[0] + ".md")
+    return write_md_file(request.param[0], request.param[1])
+
+
+def write_md_file(id: str, content: str):
+    path = pathlib.Path(src.markdown.get_conf("paths")[0]) / (id + ".md")
     with open(path, "w+") as f:
-        f.write(request.param[1])
-    yield (path, request.param[0], request.param[1])
+        f.write(content)
+    return (path, id, content)

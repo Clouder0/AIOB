@@ -1,15 +1,15 @@
-from turtle import update
-from typing import Any, Coroutine, List, Optional, Tuple
-from aiob.api.plugin_loader import SourceClass
-from aiob.api.model import OptBase, SourceBase, Data
-from aiob.api.opts import AddOpt, ChangeOpt, DelOpt
-from aiob.api import config
-from aiob.api import db
-import os
-from datetime import datetime
 import asyncio
-import aiofiles
+import os
 import pathlib
+from datetime import datetime
+from typing import Any, Coroutine, List, Optional
+
+import aiofiles
+from aiob.api import config, db
+from aiob.api.model import Data, OptBase, SourceBase
+from aiob.api.opts import AddOpt, ChangeOpt, DelOpt
+from aiob.api.plugin_loader import SourceClass
+import frontmatter
 
 
 def get_isotime(timestamp: float) -> str:
@@ -32,7 +32,7 @@ class markdown(SourceBase):
     @classmethod
     async def get_opt_seq(cls) -> List[OptBase]:
         tasks: List[Coroutine[Any, Any, Optional[OptBase]]] = []
-        paths = config.settings.get(("Source.{}.paths").format(cls.name), [])
+        paths = cls.get_conf("paths", [])
         for root in paths:
             for _, _, filenames in os.walk(root):
                 for file in filenames:
@@ -62,13 +62,26 @@ class markdown(SourceBase):
 
     @classmethod
     def parse(cls, mdpath: pathlib.Path, content: str) -> Data:
-        title = mdpath.name.removesuffix(".md")
-        id = title
+        post: frontmatter.Post = frontmatter.loads(content)
+        id = mdpath.name.removesuffix(".md")
+        title = id
+        actual_content = post.content
         stat = mdpath.stat()
         create_time = get_isotime(stat.st_ctime)
         update_time = get_isotime(stat.st_mtime)
-        data = Data(cls, id=id, title=title, content=content,
+        data = Data(cls, id=id, title=title, content=actual_content,
                     create_time=create_time, update_time=update_time)
         data.extras["origin_path"] = str(mdpath)
-        pass  # TODO
+
+        data.author = post.get("author", data.author)
+        data.category = post.get("category", data.category)
+        data.feature_image = post.get("feature_image", data.feature_image)
+        data.slug = post.get("slug", data.slug)
+        data.tags = post.get("tags", data.tags)
+        data.extras.update(post.get("extras", {}))
+        data.id = post.get("id", data.id)
+        data.title = post.get("title", data.title)
+        data.create_time = post.get("create_time", data.create_time)
+        data.update_time = post.get("update_time", data.update_time)
+
         return data

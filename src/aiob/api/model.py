@@ -2,6 +2,11 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional, Tuple, Type
 from dataclasses import dataclass, field
+from aiob.api import config
+
+
+data_metas: Tuple[str] = ("id", "create_time", "update_time", "title",
+                          "slug", "author", "feature_image", "category", "tags", "extras")
 
 
 @dataclass
@@ -33,6 +38,10 @@ class SourceBase(ABC):
     async def get_opt_seq(cls) -> List[OptBase]:
         pass
 
+    @classmethod
+    def get_conf(cls, key: str, default: Optional[Any] = None) -> Any:
+        return config.settings.get(f"Source.{cls.name}.{key}", default)
+
 
 @dataclass  # type: ignore
 class DestinationBase(ABC):
@@ -52,6 +61,10 @@ class DestinationBase(ABC):
     @abstractmethod
     async def change(cls, data: Data) -> None:
         pass
+
+    @classmethod
+    def get_conf(cls, key: str, default: Optional[Any] = None) -> Any:
+        return config.settings.get(f"Destination.{cls.name}.{key}", default)
 
 
 @dataclass  # type: ignore
