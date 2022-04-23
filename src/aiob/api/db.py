@@ -7,7 +7,7 @@ from tinydb.storages import JSONStorage
 import atexit
 
 
-db: Optional[TinyDB] = None
+db: Optional[TinyDB]
 
 
 def init_db():
@@ -17,6 +17,10 @@ def init_db():
 
 def query_src_datas(src: SourceBase) -> List[Data]:
     return [parse_to_data(x) for x in db.search(where("source") == src.name)]
+
+
+def eq_data(data: Data):
+    return (where("source") == data.source.name and where("id") == data.id)
 
 
 def query_src_data_by_id(src: SourceBase, id: str) -> Optional[Data]:
@@ -56,7 +60,11 @@ def add_datas(datas: Iterable[Data]):
 
 
 def del_data(data: Data):
-    db.remove(where("id") == data.id and where("source") == data.source.name)
+    db.remove(eq_data(data))
+
+
+def change_data(data: Data):
+    db.update(parse_from_data(data), eq_data(data))
 
 
 @atexit.register

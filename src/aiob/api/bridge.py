@@ -14,6 +14,5 @@ async def get_all_opt_seq() -> List[OptBase]:
 
 
 async def exec_opts(opts: Iterable[OptBase]):
-    # TODO
-    for x in opts:
-        x.execute()
+    tasks = [x.execute() for x in opts]
+    await asyncio.gather(*tasks)

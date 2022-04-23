@@ -1,0 +1,9 @@
+rewrite_settings = 1
+db_path = './tests/db.json'
+[Source]
+[Source.src_file_markdown]
+paths = ['./tests/api/Sources/input/']
+
+[Destination]
+[Destination.dest_file_markdown]
+path = './tests/api/Destinations/output/'

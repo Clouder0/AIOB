@@ -23,5 +23,8 @@ class DelOpt(OptBase):
 
 class ChangeOpt(OptBase):
     async def execute(self):
-        # TODO
-        pass
+        if self.data.dests == []:
+            raise NoDestException(self)
+        tasks = [dest.change(self.data) for dest in self.data.dests]
+        await asyncio.gather(*tasks)
+        db.change_data(self.data)
