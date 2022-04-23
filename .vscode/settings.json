@@ -1,7 +1,8 @@
 {
     "python.linting.pycodestyleEnabled": true,
+    "python.linting.pydocstyleEnabled": false,  // TODO
     "python.linting.pylamaEnabled": false,
     "python.linting.enabled": true,
     "python.linting.flake8Enabled": false,
-    "python.linting.mypyEnabled": false
+    "python.linting.mypyEnabled": true
 }

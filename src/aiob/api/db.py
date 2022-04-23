@@ -1,4 +1,4 @@
-from typing import Dict, Iterable, List, Optional
+from typing import Dict, Iterable, List, Optional, Type
 from aiob.api import config, plugin_loader
 from aiob.api.model import Data, DestinationBase, SourceBase
 from tinydb import TinyDB, where
@@ -7,7 +7,7 @@ from tinydb.storages import JSONStorage
 import atexit
 
 
-db: Optional[TinyDB]
+db: TinyDB
 
 
 def init_db():
@@ -15,15 +15,19 @@ def init_db():
     db = TinyDB(config.settings.db_path, storage=CachingMiddleware(JSONStorage))
 
 
-def query_src_datas(src: SourceBase) -> List[Data]:
+init_db()
+
+
+def query_src_datas(src: Type[SourceBase]) -> List[Data]:
     return [parse_to_data(x) for x in db.search(where("source") == src.name)]
 
 
 def eq_data(data: Data):
-    return (where("source") == data.source.name and where("id") == data.id)
+    return ((where("source") == data.source.name if data.source is not None
+             else None) and where("id") == data.id)
 
 
-def query_src_data_by_id(src: SourceBase, id: str) -> Optional[Data]:
+def query_src_data_by_id(src: Type[SourceBase], id: str) -> Optional[Data]:
     ret = db.search(where("source") == src.name and where("id") == id)
     if len(ret) <= 0:
         return None
@@ -45,9 +49,13 @@ def parse_from_data(data: Data) -> Dict:
 
 def parse_to_data(dict: Dict) -> Data:
     data = Data(**dict)
-    data.source = plugin_loader.get_source_from_name(data.source)
-    data.dests = [plugin_loader.get_destination_from_name(
-        x) for x in data.dests]
+    data.source = plugin_loader.get_source_from_name(dict["source"])
+    new_dests: List[Type[DestinationBase]] = []
+    for x in dict["dests"]:
+        ret = plugin_loader.get_destination_from_name(x)
+        if ret is not None:
+            new_dests.append(ret)
+    data.dests = new_dests
     return data
 
 

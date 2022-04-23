@@ -1,21 +1,20 @@
 from __future__ import annotations
 from abc import ABC, abstractmethod
-from typing import List, Optional
+from typing import List, Optional, Tuple, Type
 from dataclasses import dataclass, field
-import datetime
 
 
 @dataclass
 class Data:
-    source: SourceBase
+    source: Optional[Type[SourceBase]]
     id: str
     content: str
+    create_time: str
+    update_time: str
     title: str = ""
-    dests: List[DestinationBase] = field(default_factory=list)
+    dests: List[Type[DestinationBase]] = field(default_factory=list)
     slug: str = ""
     author: str = ""
-    create_time: Optional[datetime.datetime] = None
-    update_time: Optional[datetime.datetime] = None
     feature_image: str = ""
     category: str = ""
     tags: List[str] = field(default_factory=list)
@@ -25,37 +24,37 @@ class Data:
             self.title = self.id
 
 
-class SourceBase:
+class SourceBase(ABC):
     name: str
-
-    @abstractmethod
-    async def get_opt_seq(cls) -> List[OptBase]:
-        pass
 
     @classmethod
-    def generate_id(cls, old_id: str) -> str:
-        return cls.name + "." + old_id
+    @abstractmethod
+    async def get_opt_seq(cls) -> Tuple[OptBase]:
+        pass
 
 
-@dataclass
-class DestinationBase:
+@dataclass  # type: ignore
+class DestinationBase(ABC):
     name: str
 
+    @classmethod
     @abstractmethod
     async def add(cls, data: Data):
         pass
 
+    @classmethod
     @abstractmethod
     async def delete(cls, data: Data):
         pass
 
+    @classmethod
     @abstractmethod
     async def change(cls, data: Data):
         pass
 
 
-@dataclass
-class OptBase:
+@dataclass  # type: ignore
+class OptBase(ABC):
     data: Data
 
     @abstractmethod
