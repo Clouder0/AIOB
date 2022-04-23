@@ -1,6 +1,6 @@
 from __future__ import annotations
 from abc import ABC, abstractmethod
-from typing import List, Optional, Tuple, Type
+from typing import Any, Dict, List, Optional, Tuple, Type
 from dataclasses import dataclass, field
 
 
@@ -18,6 +18,7 @@ class Data:
     feature_image: str = ""
     category: str = ""
     tags: List[str] = field(default_factory=list)
+    extras: Dict[str, str] = field(default_factory=dict)
 
     def __post_init__(self):
         if self.title == "":
@@ -29,7 +30,7 @@ class SourceBase(ABC):
 
     @classmethod
     @abstractmethod
-    async def get_opt_seq(cls) -> Tuple[OptBase]:
+    async def get_opt_seq(cls) -> List[OptBase]:
         pass
 
 

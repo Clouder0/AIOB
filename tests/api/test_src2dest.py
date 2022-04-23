@@ -1,30 +1,35 @@
 from typing import List
 from aiob.api.Sources.src_file_markdown import src_file_markdown as src
 from aiob.api.Destinations.file_markdown import dest_file_markdown as dest
-from aiob.api import config
-import pathlib
+import os
 from aiob.api import db
 from aiob.api.model import Data, OptBase
 
 
-async def test_single_file(fixture_clean_db, fixture_clean_input_output):
-    path: str = config.settings.get(
-        "Source.{}.paths".format(src.markdown.name))[0]
-    titles_contents = [("title1", "content1"), ("title2", "content2"),
-                       ("title3", "content3"), ("title4", "content4")]
-    for title, content in titles_contents:
-        with open(pathlib.Path(path) / (title + ".md"), "w+") as f:
-            f.write(content)
+async def test_add_single_file(fixture_clean_db, fixture_clean_input_output, fixture_md_file):
     opts: List[OptBase] = await src.markdown.get_opt_seq()
     for x in opts:
         x.data.dests.append(dest.Destination)
-    assert len(opts) > 0
+    assert len(opts) == 1
+    x = opts[0]
+    await x.execute()
+    ret: Data = db.query_src_data_by_id(src.markdown, x.data.id)
+    assert ret.title == fixture_md_file[1]
+    assert ret.id == fixture_md_file[1]
+    assert ret.content == fixture_md_file[2]
+
+
+async def test_remove_single_file(fixture_clean_db, fixture_md_file):
+    opts = await src.markdown.get_opt_seq()
+    for x in opts:
+        x.data.dests.append(dest.Destination)
     for x in opts:
         await x.execute()
-        execute_result: Data = db.query_src_data_by_id(src.markdown, x.data.id)
-        assert execute_result.title == x.data.id == x.data.title
-        assert execute_result.content == x.data.content
-
-
-async def test_multiple_files(fixture_clean_db, fixture_clean_input_output):
-    pass
+    os.remove(fixture_md_file[0])
+    opts = await src.markdown.get_opt_seq()
+    assert len(opts) == 1
+    x = opts[0]
+    assert x.data.id == fixture_md_file[1]
+    assert x.data.content == fixture_md_file[2]
+    await x.execute()
+    assert db.query_src_data_by_id(src.markdown, fixture_md_file[1]) is None

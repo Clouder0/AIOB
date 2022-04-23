@@ -2,7 +2,7 @@ from turtle import update
 from typing import Any, Coroutine, List, Optional, Tuple
 from aiob.api.plugin_loader import SourceClass
 from aiob.api.model import OptBase, SourceBase, Data
-from aiob.api.opts import AddOpt, ChangeOpt
+from aiob.api.opts import AddOpt, ChangeOpt, DelOpt
 from aiob.api import config
 from aiob.api import db
 import os
@@ -16,12 +16,21 @@ def get_isotime(timestamp) -> str:
     return datetime.fromtimestamp(timestamp).isoformat()
 
 
+async def check_del(data: Data) -> Optional[DelOpt]:
+    if "origin_path" not in data.extras:
+        return None
+    path = pathlib.Path(data.extras["origin_path"])
+    if path.exists():
+        return None
+    return DelOpt(data)
+
+
 @SourceClass
 class markdown(SourceBase):
     name = "src_file_markdown"
 
     @classmethod
-    async def get_opt_seq(cls) -> Tuple[OptBase]:
+    async def get_opt_seq(cls) -> List[OptBase]:
         tasks: List[Coroutine[Any, Any, Optional[OptBase]]] = []
         paths = config.settings.get(("Source.{}.paths").format(cls.name), [])
         for root in paths:
@@ -29,8 +38,14 @@ class markdown(SourceBase):
                 for file in filenames:
                     mdpath = pathlib.Path(os.path.join(root, file))
                     tasks.append(cls.get_opt(mdpath))
-        OptSeq: Tuple[OptBase] = await asyncio.gather(*tasks)
-        return OptSeq
+        add_change_seq: List[OptBase] = await asyncio.gather(*tasks)
+
+        # DelOpts
+        pass
+        olds: List[Data] = db.query_src_datas(cls)
+        tasks = [check_del(x) for x in olds]
+        del_seq: List[OptBase] = await asyncio.gather(*tasks)
+        return add_change_seq + del_seq
 
     @classmethod
     async def get_opt(cls, mdpath: pathlib.Path) -> Optional[OptBase]:
@@ -54,5 +69,6 @@ class markdown(SourceBase):
         update_time = get_isotime(stat.st_mtime)
         data = Data(cls, id=id, title=title, content=content,
                     create_time=create_time, update_time=update_time)
+        data.extras["origin_path"] = str(mdpath)
         pass  # TODO
         return data
