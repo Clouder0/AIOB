@@ -20,6 +20,7 @@ init_db()
 
 
 def query_src_datas(src: Type[SourceBase]) -> List[Data]:
+    global db
     return [parse_to_data(x) for x in db.search(where("source") == src.name)]
 
 
@@ -29,6 +30,7 @@ def eq_data(data: Data) -> QueryLike:
 
 
 def query_src_data_by_id(src: Type[SourceBase], id: str) -> Optional[Data]:
+    global db
     ret = db.search(where("source") == src.name and where("id") == id)
     if len(ret) <= 0:
         return None
@@ -61,22 +63,27 @@ def parse_to_data(dict: Dict) -> Data:
 
 
 def add_data(data: Data) -> None:
+    global db
     db.insert(parse_from_data(data))
 
 
 def add_datas(datas: Iterable[Data]) -> None:
+    global db
     db.insert_multiple([parse_from_data(data) for data in datas])
 
 
 def del_data(data: Data) -> None:
+    global db
     db.remove(eq_data(data))
 
 
 def change_data(data: Data) -> None:
+    global db
     db.update(parse_from_data(data), eq_data(data))
 
 
 @atexit.register
 def close_db() -> None:
+    global db
     if db is not None and db._opened:
         db.close()

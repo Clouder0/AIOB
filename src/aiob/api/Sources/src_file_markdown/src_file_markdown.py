@@ -5,10 +5,10 @@ from datetime import datetime
 from typing import Any, Coroutine, List, Optional
 
 import aiofiles
-from aiob.api import config, db
+from aiob.api import db
 from aiob.api.model import Data, OptBase, SourceBase
 from aiob.api.opts import AddOpt, ChangeOpt, DelOpt
-from aiob.api.plugin_loader import SourceClass
+from aiob.api.plugin_loader import source_class
 import frontmatter
 
 
@@ -25,8 +25,8 @@ async def check_del(data: Data) -> Optional[DelOpt]:
     return DelOpt(data)
 
 
-@SourceClass
-class markdown(SourceBase):
+@source_class
+class Markdown(SourceBase):
     name = "src_file_markdown"
 
     @classmethod

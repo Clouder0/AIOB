@@ -5,8 +5,8 @@ from dataclasses import dataclass, field
 from aiob.api import config
 
 
-data_metas: Tuple[str] = ("id", "create_time", "update_time", "title",
-                          "slug", "author", "feature_image", "category", "tags", "extras")
+data_metas: Tuple[str, ...] = ("id", "create_time", "update_time", "title",
+                               "slug", "author", "feature_image", "category", "tags", "extras")
 
 
 @dataclass

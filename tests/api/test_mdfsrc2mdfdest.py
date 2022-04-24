@@ -8,39 +8,39 @@ from aiob.api.opts import ChangeOpt
 
 
 async def test_add_single_file(fixture_clean_db, fixture_clean_input_output, fixture_md_file):
-    opts: List[OptBase] = await src.markdown.get_opt_seq()
+    opts: List[OptBase] = await src.Markdown.get_opt_seq()
     for x in opts:
         x.data.dests.append(dest.Destination)
     assert len(opts) == 1
     x = opts[0]
     await x.execute()
-    ret: Data = db.query_src_data_by_id(src.markdown, x.data.id)
+    ret: Data = db.query_src_data_by_id(src.Markdown, x.data.id)
     assert ret.title == fixture_md_file[1]
     assert ret.id == fixture_md_file[1]
     assert ret.content == fixture_md_file[2]
 
 
 async def test_remove_single_file(fixture_clean_db, fixture_md_file):
-    opts = await src.markdown.get_opt_seq()
+    opts = await src.Markdown.get_opt_seq()
     for x in opts:
         x.data.dests.append(dest.Destination)
     for x in opts:
         await x.execute()
     os.remove(fixture_md_file[0])
-    opts = await src.markdown.get_opt_seq()
+    opts = await src.Markdown.get_opt_seq()
     assert len(opts) == 1
     x = opts[0]
     assert x.data.id == fixture_md_file[1]
     assert x.data.content == fixture_md_file[2]
     await x.execute()
-    assert db.query_src_data_by_id(src.markdown, fixture_md_file[1]) is None
+    assert db.query_src_data_by_id(src.Markdown, fixture_md_file[1]) is None
 
 
 async def test_change_single_file(fixture_clean_db, fixture_clean_input_output, fixture_md_file):
     await test_add_single_file(fixture_clean_db, fixture_clean_input_output, fixture_md_file)
     with open(fixture_md_file[0], "w+") as f:
         f.write("new content")
-    opts = await src.markdown.get_opt_seq()
+    opts = await src.Markdown.get_opt_seq()
     x = opts[0]
     assert type(x) == ChangeOpt
     assert x.data.content == "new content"

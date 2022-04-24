@@ -1,13 +1,13 @@
 import dataclasses
 import frontmatter
 from aiob.api.model import Data, DestinationBase, data_metas
-from aiob.api.plugin_loader import DestinationClass
+from aiob.api.plugin_loader import destination_class
 import os
 import aiofiles
 import pathlib
 
 
-@DestinationClass
+@destination_class
 class Destination(DestinationBase):
     name = "dest_file_markdown"
 
@@ -21,7 +21,7 @@ class Destination(DestinationBase):
     async def add(cls, data: Data) -> None:
         path = cls.get_path(data)
         async with aiofiles.open(path, "w+") as f:
-            await f.write(cls.__parse__(data))
+            await f.write(cls._parse(data))
 
     @classmethod
     async def delete(cls, data: Data) -> None:
@@ -32,10 +32,10 @@ class Destination(DestinationBase):
     async def change(cls, data: Data) -> None:
         path = cls.get_path(data)
         async with aiofiles.open(path, "w+") as f:
-            await f.write(cls.__parse__(data))
+            await f.write(cls._parse(data))
 
     @classmethod
-    def __parse__(cls, data: Data) -> str:
+    def _parse(cls, data: Data) -> str:
         if not cls.get_conf("frontmatter", True):
             return data.content
 

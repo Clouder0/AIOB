@@ -22,12 +22,12 @@ def load_externals() -> None:
         importlib.import_module(x.name)
 
 
-def SourceClass(cls: Type[SourceBase]) -> Type[SourceBase]:
+def source_class(cls: Type[SourceBase]) -> Type[SourceBase]:
     src_list.append(cls)
     return cls
 
 
-def DestinationClass(cls: Type[DestinationBase]) -> Type[DestinationBase]:
+def destination_class(cls: Type[DestinationBase]) -> Type[DestinationBase]:
     dest_list.append(cls)
     return cls
 
