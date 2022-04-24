@@ -1,6 +1,7 @@
 import asyncio
+
 from aiob.api import db
-from aiob.api.model import NoDestException, OptBase  # noqa
+from aiob.api.model import NoDestException, OptBase
 
 
 class AddOpt(OptBase):

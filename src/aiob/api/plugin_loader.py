@@ -1,12 +1,12 @@
 import importlib
-import pkgutil
-from typing import List, Optional, Type
-from aiob.api.model import DestinationBase, SourceBase
-import aiob.api.Sources
-import aiob.api.Destinations
 import os
+import pkgutil
 import sys
+from typing import List, Optional, Type
 
+import aiob.api.Destinations
+import aiob.api.Sources
+from aiob.api.model import DestinationBase, SourceBase
 
 src_list: List[Type[SourceBase]] = []
 dest_list: List[Type[DestinationBase]] = []

@@ -5,11 +5,12 @@ from datetime import datetime
 from typing import Any, Coroutine, List, Optional
 
 import aiofiles
+import frontmatter
+
 from aiob.api import db
 from aiob.api.model import Data, OptBase, SourceBase
 from aiob.api.opts import AddOpt, ChangeOpt, DelOpt
 from aiob.api.plugin_loader import source_class
-import frontmatter
 
 
 def get_isotime(timestamp: float) -> str:

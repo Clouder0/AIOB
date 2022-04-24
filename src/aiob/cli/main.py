@@ -1,10 +1,11 @@
-from typing import List
-from aiob.api.model import Data, OptBase
-from aiob.api import db
-from aiob.api.plugin_loader import dest_list
-import typer
-from aiob.api import bridge
 import asyncio
+from typing import List
+
+import typer
+
+from aiob.api import bridge, db
+from aiob.api.model import Data, OptBase
+from aiob.api.plugin_loader import dest_list
 
 
 def select_dest(data: Data) -> None:

@@ -1,9 +1,10 @@
 from __future__ import annotations
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional, Tuple, Type
-from dataclasses import dataclass, field
-from aiob.api import config
 
+from abc import ABC, abstractmethod
+from dataclasses import dataclass, field
+from typing import Any, Dict, List, Optional, Tuple, Type
+
+from aiob.api import config
 
 data_metas: Tuple[str, ...] = ("id", "create_time", "update_time", "title",
                                "slug", "author", "feature_image", "category", "tags", "extras")

@@ -1,10 +1,12 @@
 import dataclasses
+import os
+import pathlib
+
+import aiofiles
 import frontmatter
+
 from aiob.api.model import Data, DestinationBase, data_metas
 from aiob.api.plugin_loader import destination_class
-import os
-import aiofiles
-import pathlib
 
 
 @destination_class
