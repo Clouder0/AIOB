@@ -9,7 +9,7 @@ from aiob.api.opts import ChangeOpt
 from aiob.api.Sources.src_file_markdown import src_file_markdown as src
 
 
-async def test_add_single_file(fixture_clean_db, fixture_clean_input_output, fixture_md_file):
+async def test_add_single_file(fixture_clean_db, fixture_md_file):
     opts: list[OptBase] = await src.Markdown.get_opt_seq()
     for x in opts:
         x.data.dests.append(dest.Destination)
@@ -38,8 +38,8 @@ async def test_remove_single_file(fixture_clean_db, fixture_md_file):
     assert db.query_src_data_by_id(src.Markdown, fixture_md_file[1]) is None
 
 
-async def test_change_single_file(fixture_clean_db, fixture_clean_input_output, fixture_md_file):
-    await test_add_single_file(fixture_clean_db, fixture_clean_input_output, fixture_md_file)
+async def test_change_single_file(fixture_clean_db, fixture_md_file):
+    await test_add_single_file(fixture_clean_db, fixture_md_file)
     with open(fixture_md_file[0], "w+") as f:
         f.write("new content")
     opts = await src.Markdown.get_opt_seq()

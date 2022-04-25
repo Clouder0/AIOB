@@ -15,8 +15,7 @@ async def test_path(fixture_reset_settings):
                                      create_time="", update_time="")) == path
 
 
-async def test_add(capsys):
-    with capsys.disabled():
-        data = Data(None, "test_id", "test_content", title="test_title",
-                    dests=[], create_time="", update_time="")
-        await Destination.add(data)
+async def test_add():
+    data = Data(None, "test_id", "test_content", title="test_title",
+                dests=[], create_time="", update_time="")
+    await Destination.add(data)
