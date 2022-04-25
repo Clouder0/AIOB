@@ -1,14 +1,17 @@
-from typing import List
-from aiob.api.Sources.src_file_markdown import src_file_markdown as src
-from aiob.api.Destinations.file_markdown import dest_file_markdown as dest
+from __future__ import annotations
+
 import os
+from typing import List
+
 from aiob.api import db
+from aiob.api.Destinations.file_markdown import dest_file_markdown as dest
 from aiob.api.model import Data, OptBase
 from aiob.api.opts import ChangeOpt
+from aiob.api.Sources.src_file_markdown import src_file_markdown as src
 
 
 async def test_add_single_file(fixture_clean_db, fixture_clean_input_output, fixture_md_file):
-    opts: List[OptBase] = await src.Markdown.get_opt_seq()
+    opts: list[OptBase] = await src.Markdown.get_opt_seq()
     for x in opts:
         x.data.dests.append(dest.Destination)
     assert len(opts) == 1

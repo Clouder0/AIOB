@@ -1,11 +1,13 @@
+from __future__ import annotations
+
 import asyncio
-from typing import Iterable, List
+from typing import Iterable
 
 from aiob.api.model import OptBase
 from aiob.api.plugin_loader import src_list
 
 
-async def get_all_opt_seq() -> List[OptBase]:
+async def get_all_opt_seq() -> list[OptBase]:
     tasks = [x.get_opt_seq() for x in src_list]
     opt_seqs = await asyncio.gather(*tasks)
     all_opt_seq = []

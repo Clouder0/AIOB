@@ -1,16 +1,17 @@
+from __future__ import annotations
+
 import importlib
 import os
 import pkgutil
 import sys
-from typing import List, Optional, Type
 
 import aiob.api.Destinations
 import aiob.api.Sources
 from aiob.api.model import DestinationBase, SourceBase
 
-src_list: List[Type[SourceBase]] = []
-dest_list: List[Type[DestinationBase]] = []
-load_path: List[str] = [os.getcwd() + "/Sources",
+src_list: list[type[SourceBase]] = []
+dest_list: list[type[DestinationBase]] = []
+load_path: list[str] = [os.getcwd() + "/Sources",
                         os.getcwd() + "/Destinations",
                         ] + list(aiob.api.Sources.__path__) + list(aiob.api.Destinations.__path__)
 sys.path = sys.path + load_path
@@ -22,24 +23,24 @@ def load_externals() -> None:
         importlib.import_module(x.name)
 
 
-def source_class(cls: Type[SourceBase]) -> Type[SourceBase]:
+def source_class(cls: type[SourceBase]) -> type[SourceBase]:
     src_list.append(cls)
     return cls
 
 
-def destination_class(cls: Type[DestinationBase]) -> Type[DestinationBase]:
+def destination_class(cls: type[DestinationBase]) -> type[DestinationBase]:
     dest_list.append(cls)
     return cls
 
 
-def get_source_from_name(name: str) -> Optional[Type[SourceBase]]:
+def get_source_from_name(name: str) -> type[SourceBase] | None:
     for x in src_list:
         if x.name == name:
             return x
     return None
 
 
-def get_destination_from_name(name: str) -> Optional[Type[DestinationBase]]:
+def get_destination_from_name(name: str) -> type[DestinationBase] | None:
     for x in dest_list:
         if x.name == name:
             return x

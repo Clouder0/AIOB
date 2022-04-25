@@ -1,5 +1,6 @@
+from __future__ import annotations
+
 import asyncio
-from typing import List
 
 import typer
 
@@ -25,7 +26,7 @@ def select_dest(data: Data) -> None:
 def main() -> None:
     typer.echo("AIOB running...")
     db.init_db()
-    opts: List[OptBase] = [x for x in asyncio.run(bridge.get_all_opt_seq()) if x is not None]
+    opts: list[OptBase] = [x for x in asyncio.run(bridge.get_all_opt_seq()) if x is not None]
     for x in opts:
         if len(x.data.dests) <= 0:
             select_dest(x.data)
