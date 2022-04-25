@@ -1,10 +1,13 @@
+from __future__ import annotations
+
 import datetime
 import os
-from aiob.api.Sources.src_file_markdown.src_file_markdown import Markdown
-from aiob.api.Destinations.file_markdown.dest_file_markdown import Destination
+
 from aiob.api import db
+from aiob.api.Destinations.file_markdown.dest_file_markdown import Destination
 from aiob.api.model import Data
 from aiob.api.opts import AddOpt, ChangeOpt, DelOpt
+from aiob.api.Sources.src_file_markdown.src_file_markdown import Markdown
 
 
 async def test_get_add_opt(fixture_md_file, fixture_clean_db):

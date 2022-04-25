@@ -2,29 +2,29 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional, Tuple, Type
+from typing import Any
 
 from aiob.api import config
 
-data_metas: Tuple[str, ...] = ("id", "create_time", "update_time", "title",
+data_metas: tuple[str, ...] = ("id", "create_time", "update_time", "title",
                                "slug", "author", "feature_image", "category", "tags", "extras")
 
 
 @dataclass
 class Data:
-    source: Optional[Type[SourceBase]]
+    source: type[SourceBase] | None
     id: str
     content: str
     create_time: str
     update_time: str
     title: str = ""
-    dests: List[Type[DestinationBase]] = field(default_factory=list)
+    dests: list[type[DestinationBase]] = field(default_factory=list)
     slug: str = ""
     author: str = ""
     feature_image: str = ""
     category: str = ""
-    tags: List[str] = field(default_factory=list)
-    extras: Dict[str, str] = field(default_factory=dict)
+    tags: list[str] = field(default_factory=list)
+    extras: dict[str, str] = field(default_factory=dict)
 
     def __post_init__(self) -> None:
         if self.title == "":
@@ -36,11 +36,11 @@ class SourceBase(ABC):
 
     @classmethod
     @abstractmethod
-    async def get_opt_seq(cls) -> List[OptBase]:
+    async def get_opt_seq(cls) -> list[OptBase]:
         pass
 
     @classmethod
-    def get_conf(cls, key: str, default: Optional[Any] = None) -> Any:
+    def get_conf(cls, key: str, default: Any | None = None) -> Any:
         return config.settings.get(f"Source.{cls.name}.{key}", default)
 
 
@@ -64,7 +64,7 @@ class DestinationBase(ABC):
         pass
 
     @classmethod
-    def get_conf(cls, key: str, default: Optional[Any] = None) -> Any:
+    def get_conf(cls, key: str, default: Any | None = None) -> Any:
         return config.settings.get(f"Destination.{cls.name}.{key}", default)
 
 

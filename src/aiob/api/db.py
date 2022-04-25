@@ -1,5 +1,7 @@
+from __future__ import annotations
+
 import atexit
-from typing import Any, Dict, Iterable, List, Optional, Type
+from typing import Any, Iterable
 
 from tinydb import TinyDB, where
 from tinydb.middlewares import CachingMiddleware
@@ -20,7 +22,7 @@ def init_db() -> None:
 init_db()
 
 
-def query_src_datas(src: Type[SourceBase]) -> List[Data]:
+def query_src_datas(src: type[SourceBase]) -> list[Data]:
     global db
     return [parse_to_data(x) for x in db.search(where("source") == src.name)]
 
@@ -30,7 +32,7 @@ def eq_data(data: Data) -> QueryLike:
              else None) and where("id") == data.id)
 
 
-def query_src_data_by_id(src: Type[SourceBase], id: str) -> Optional[Data]:
+def query_src_data_by_id(src: type[SourceBase], id: str) -> Data | None:
     global db
     ret = db.search(where("source") == src.name and where("id") == id)
     if len(ret) <= 0:
@@ -47,14 +49,14 @@ def parse_value(obj: Any) -> Any:
     return obj
 
 
-def parse_from_data(data: Data) -> Dict:
+def parse_from_data(data: Data) -> dict:
     return {key: parse_value(value) for key, value in data.__dict__.items() if not key.startswith("__")}
 
 
-def parse_to_data(dict: Dict) -> Data:
+def parse_to_data(dict: dict) -> Data:
     data = Data(**dict)
     data.source = plugin_loader.get_source_from_name(dict["source"])
-    new_dests: List[Type[DestinationBase]] = []
+    new_dests: list[type[DestinationBase]] = []
     for x in dict["dests"]:
         ret = plugin_loader.get_destination_from_name(x)
         if ret is not None:
