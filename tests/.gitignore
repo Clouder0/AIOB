@@ -1,0 +1,4 @@
+db.json
+api/Sources/input/
+api/Destinations/output/
+*.md
