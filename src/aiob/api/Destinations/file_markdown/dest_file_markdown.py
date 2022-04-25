@@ -24,6 +24,7 @@ class Destination(DestinationBase):
     @classmethod
     async def add(cls, data: Data) -> None:
         path = cls.get_path(data)
+        path.parent.mkdir(parents=True, exist_ok=True)
         async with aiofiles.open(path, "w+") as f:
             await f.write(cls._parse(data))
 
@@ -35,6 +36,7 @@ class Destination(DestinationBase):
     @classmethod
     async def change(cls, data: Data) -> None:
         path = cls.get_path(data)
+        path.parent.mkdir(parents=True, exist_ok=True)
         async with aiofiles.open(path, "w+") as f:
             await f.write(cls._parse(data))
 

@@ -6,7 +6,6 @@ import pathlib
 import pytest
 from dynaconf import Dynaconf
 
-from aiob.api import config
 from aiob.api.Sources.src_file_markdown import src_file_markdown as src
 
 
@@ -15,7 +14,7 @@ def fixture_reset_settings():
     from aiob.api import config
     my_settings = Dynaconf(
         envvar_prefix="AIOB",
-        settings_files=['./tests/settings.toml'],
+        settings_files=["./tests/settings.toml"],
     )
     config.settings = my_settings
     yield config.settings
@@ -38,6 +37,8 @@ def fixture_clean_db(fixture_db):
 def fixture_clean_input_output():
     input_path = pathlib.Path("./tests/api/Sources/input/")
     output_path = pathlib.Path("./tests/api/Destinations/output/")
+    input_path.mkdir(parents=True, exist_ok=True)
+    output_path.mkdir(parents=True, exist_ok=True)
     for x in input_path.iterdir():
         os.remove(x)
     for x in output_path.iterdir():

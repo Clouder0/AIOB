@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import os
-from typing import List
 
 from aiob.api import db
 from aiob.api.Destinations.file_markdown import dest_file_markdown as dest

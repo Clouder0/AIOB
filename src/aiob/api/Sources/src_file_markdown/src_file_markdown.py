@@ -37,6 +37,8 @@ class Markdown(SourceBase):
         tasks: list[Coroutine[Any, Any, OptBase | None]] = []
         paths = cls.get_conf("paths", [])
         for root in paths:
+            if not os.path.exists(root):
+                continue
             for _, _, filenames in os.walk(root):
                 for file in filenames:
                     mdpath = pathlib.Path(os.path.join(root, file))
