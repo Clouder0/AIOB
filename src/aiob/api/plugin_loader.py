@@ -22,6 +22,16 @@ def load_externals() -> None:
     for x in pkgutil.walk_packages(path=load_path):
         importlib.import_module(x.name)
 
+    import sys
+    if sys.version_info < (3, 10):
+        from importlib_metadata import entry_points
+    else:
+        from importlib.metadata import entry_points
+
+    plugins = entry_points(group="aiob.plugins")  # type: ignore
+    for x in plugins:  # type: ignore
+        x.load()  # type: ignore
+
 
 def source_class(cls: type[SourceBase]) -> type[SourceBase]:
     src_list.append(cls)
