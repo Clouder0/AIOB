@@ -28,8 +28,9 @@ def query_src_datas(src: type[SourceBase]) -> list[Data]:
 
 
 def eq_data(data: Data) -> QueryLike:
-    return ((where("source") == data.source.name if data.source is not None
-             else None) and where("id") == data.id)
+    return (
+        where("source") == data.source.name if data.source is not None else None
+    ) and where("id") == data.id
 
 
 def query_src_data_by_id(src: type[SourceBase], id: str) -> Data | None:
@@ -42,7 +43,8 @@ def query_src_data_by_id(src: type[SourceBase], id: str) -> Data | None:
 
 def parse_value(obj: Any) -> Any:
     if isinstance(obj, type) and (
-            issubclass(obj, SourceBase) or issubclass(obj, DestinationBase)):
+        issubclass(obj, SourceBase) or issubclass(obj, DestinationBase)
+    ):
         return obj.name
     if isinstance(obj, list):
         return [parse_value(x) for x in obj]
@@ -50,7 +52,11 @@ def parse_value(obj: Any) -> Any:
 
 
 def parse_from_data(data: Data) -> dict:
-    return {key: parse_value(value) for key, value in data.__dict__.items() if not key.startswith("__")}
+    return {
+        key: parse_value(value)
+        for key, value in data.__dict__.items()
+        if not key.startswith("__")
+    }
 
 
 def parse_to_data(dict: dict) -> Data:

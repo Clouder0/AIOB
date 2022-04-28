@@ -19,12 +19,20 @@ async def test_get_add_opt(fixture_md_file, fixture_clean_db):
 
 async def test_get_change_opt(fixture_md_file, fixture_clean_db):
     time = datetime.datetime.fromtimestamp(
-        fixture_md_file[0].stat().st_mtime - 10).isoformat()
+        fixture_md_file[0].stat().st_mtime - 10
+    ).isoformat()
     true_time = datetime.datetime.fromtimestamp(
-        fixture_md_file[0].stat().st_mtime).isoformat()
+        fixture_md_file[0].stat().st_mtime
+    ).isoformat()
     db.add_data(
-        Data(Markdown, id=fixture_md_file[1],
-             content=fixture_md_file[2], create_time=time, update_time=time))
+        Data(
+            Markdown,
+            id=fixture_md_file[1],
+            content=fixture_md_file[2],
+            create_time=time,
+            update_time=time,
+        )
+    )
     opt: ChangeOpt = await Markdown.get_opt(fixture_md_file[0])
     assert type(opt) == ChangeOpt
     assert opt.data.update_time == true_time

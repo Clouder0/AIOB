@@ -74,8 +74,14 @@ class Markdown(SourceBase):
         stat = mdpath.stat()
         create_time = get_isotime(stat.st_ctime)
         update_time = get_isotime(stat.st_mtime)
-        data = Data(cls, id=id, title=title, content=actual_content,
-                    create_time=create_time, update_time=update_time)
+        data = Data(
+            cls,
+            id=id,
+            title=title,
+            content=actual_content,
+            create_time=create_time,
+            update_time=update_time,
+        )
         data.extras["origin_path"] = str(mdpath)
 
         data.author = post.get("author", data.author)

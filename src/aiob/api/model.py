@@ -6,8 +6,18 @@ from typing import Any
 
 from aiob.api import config
 
-data_metas: tuple[str, ...] = ("id", "create_time", "update_time", "title",
-                               "slug", "author", "feature_image", "category", "tags", "extras")
+data_metas: tuple[str, ...] = (
+    "id",
+    "create_time",
+    "update_time",
+    "title",
+    "slug",
+    "author",
+    "feature_image",
+    "category",
+    "tags",
+    "extras",
+)
 
 
 @dataclass

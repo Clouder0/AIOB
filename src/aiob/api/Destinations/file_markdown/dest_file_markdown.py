@@ -17,8 +17,9 @@ class Destination(DestinationBase):
 
     @classmethod
     def get_path(cls, data: Data) -> pathlib.Path:
-        path = pathlib.Path(Destination.get_conf(
-            "path", os.getcwd() + "/") + data.title + ".md")
+        path = pathlib.Path(
+            Destination.get_conf("path", os.getcwd() + "/") + data.title + ".md"
+        )
         return path
 
     @classmethod

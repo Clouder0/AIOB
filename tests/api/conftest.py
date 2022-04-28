@@ -23,6 +23,7 @@ def fixture_reset_settings():
 @pytest.fixture(scope="function", autouse=True)
 def fixture_db():
     import aiob.api.db
+
     aiob.api.db.init_db()
     yield aiob.api.db
     aiob.api.db.close_db()
@@ -60,4 +61,5 @@ def func_write_md_file(fixture_io_dirs):
         with open(path, "w+") as f:
             f.write(content)
         return (path, id, content)
+
     return write_md_file

@@ -12,6 +12,7 @@ def test_test_load():
 def test_entry_point(monkeypatch):
 
     import sys
+
     if sys.version_info < (3, 10):
         import importlib_metadata
         from importlib_metadata import EntryPoint
@@ -19,7 +20,13 @@ def test_entry_point(monkeypatch):
         import importlib.metadata
         from importlib.metadata import EntryPoint
 
-    my_entry_points = (EntryPoint(name="testname", value="tests.api.test_plugin_loader:ExampleSource", group="aiob.plugins"),)
+    my_entry_points = (
+        EntryPoint(
+            name="testname",
+            value="tests.api.test_plugin_loader:ExampleSource",
+            group="aiob.plugins",
+        ),
+    )
 
     def entry_points_func(**args):
         return my_entry_points

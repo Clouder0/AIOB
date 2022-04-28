@@ -11,9 +11,14 @@ from aiob.api.model import DestinationBase, SourceBase
 
 src_list: list[type[SourceBase]] = []
 dest_list: list[type[DestinationBase]] = []
-load_path: list[str] = [os.getcwd() + "/Sources",
-                        os.getcwd() + "/Destinations",
-                        ] + list(aiob.api.Sources.__path__) + list(aiob.api.Destinations.__path__)
+load_path: list[str] = (
+    [
+        os.getcwd() + "/Sources",
+        os.getcwd() + "/Destinations",
+    ]
+    + list(aiob.api.Sources.__path__)
+    + list(aiob.api.Destinations.__path__)
+)
 sys.path = sys.path + load_path
 
 
@@ -23,6 +28,7 @@ def load_externals() -> None:
         importlib.import_module(x.name)
 
     import sys
+
     if sys.version_info < (3, 10):
         from importlib_metadata import entry_points
     else:
