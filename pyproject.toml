@@ -17,6 +17,7 @@ typer = {extras = ["all"], version = "^0.4.1"}
 colorama = "^0.4.4"
 shellingham = "^1.4.0"
 python-frontmatter = "^1.0.0"
+importlib-metadata = {version = "^4.11.3", python = "<3.10"}
 
 [tool.poetry.dev-dependencies]
 autopep8 = "^1.6.0"
