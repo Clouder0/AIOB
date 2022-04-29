@@ -91,7 +91,6 @@ class DestinationBase(ABC):
         Args:
             data (Data): The Data to add.
         """
-        pass
 
     @classmethod
     @abstractmethod
@@ -101,7 +100,6 @@ class DestinationBase(ABC):
         Args:
             data (Data): The Data to delete.
         """
-        pass
 
     @classmethod
     @abstractmethod
@@ -111,7 +109,6 @@ class DestinationBase(ABC):
         Args:
             data (Data): The new data.
         """
-        pass
 
     @classmethod
     def get_conf(cls, key: str, default: Any | None = None) -> Any:
@@ -136,10 +133,7 @@ class OptBase(ABC):
     @abstractmethod
     async def execute(self) -> None:
         """Execute the operation accordingly."""
-        pass
 
 
 class NoDestException(Exception):
     """Exception to indicate that the Data class hasn't been assigned to a Destination yet."""
-
-    pass

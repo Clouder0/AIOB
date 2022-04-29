@@ -56,7 +56,6 @@ class Markdown(SourceBase):
         add_change_seq: list[OptBase] = await asyncio.gather(*tasks)
 
         # DelOpts
-        pass
         olds: list[Data] = db.query_src_datas(cls)
         tasks = [_check_del(x) for x in olds]
         del_seq: list[OptBase] = await asyncio.gather(*tasks)

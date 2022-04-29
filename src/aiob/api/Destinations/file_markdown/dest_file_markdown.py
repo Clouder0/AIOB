@@ -79,5 +79,4 @@ class Destination(DestinationBase):
 
         if len(post.metadata.keys()) > 0:
             return frontmatter.dumps(post)
-        else:
-            return data.content
+        return data.content

@@ -14,16 +14,13 @@ from tinydb.queries import QueryLike
 from tinydb.storages import JSONStorage
 
 
-db: TinyDB
+db = TinyDB(config.settings.db_path, storage=CachingMiddleware(JSONStorage))
 
 
 def init_db() -> None:
     """Initialize the database. Executed when loading the module, but can be manually called later to reinitialize."""
     global db
     db = TinyDB(config.settings.db_path, storage=CachingMiddleware(JSONStorage))
-
-
-init_db()
 
 
 def query_src_datas(src: type[SourceBase]) -> list[Data]:
@@ -35,7 +32,6 @@ def query_src_datas(src: type[SourceBase]) -> list[Data]:
     Returns:
         list[Data]: A list of Data whose Source equals to the given one.
     """
-    global db
     return [_parse_to_data(x) for x in db.search(where("source") == src.name)]
 
 
@@ -55,7 +51,6 @@ def query_data(src: type[SourceBase], id: str) -> Data | None:
     Returns:
         Data | None: None if not found.
     """
-    global db
     ret = db.search(where("source") == src.name and where("id") == id)
     if len(ret) <= 0:
         return None
@@ -80,11 +75,11 @@ def _parse_from_data(data: Data) -> dict:
     }
 
 
-def _parse_to_data(dict: dict) -> Data:
-    data = Data(**dict)
-    data.source = plugin_loader.get_source_from_name(dict["source"])
+def _parse_to_data(origin: dict) -> Data:
+    data = Data(**origin)
+    data.source = plugin_loader.get_source_from_name(origin["source"])
     new_dests: list[type[DestinationBase]] = []
-    for x in dict["dests"]:
+    for x in origin["dests"]:
         ret = plugin_loader.get_destination_from_name(x)
         if ret is not None:
             new_dests.append(ret)
@@ -98,7 +93,6 @@ def add_data(data: Data) -> None:
     Args:
         data (Data): The Data to add.
     """
-    global db
     db.insert(_parse_from_data(data))
 
 
@@ -108,7 +102,6 @@ def add_datas(datas: Iterable[Data]) -> None:
     Args:
         datas (Iterable[Data]): The Datas to add.
     """
-    global db
     db.insert_multiple([_parse_from_data(data) for data in datas])
 
 
@@ -118,7 +111,6 @@ def del_data(data: Data) -> None:
     Args:
         data (Data): The Data to delete.
     """
-    global db
     db.remove(_eq_data(data))
 
 
@@ -128,13 +120,11 @@ def change_data(data: Data) -> None:
     Args:
         data (Data): New data.
     """
-    global db
     db.update(_parse_from_data(data), _eq_data(data))
 
 
 @atexit.register
 def close_db() -> None:
     """Close the database connection. Will be automatically executed when unloading the module."""
-    global db
     if db is not None and db._opened:
         db.close()
