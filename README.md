@@ -2,7 +2,7 @@
 
 <div align="center">
   <a href="https://github.com/Clouder0/AIOB">
-    <img src="logo.jpg" alt="Logo">
+    <img src="https://raw.githubusercontent.com/Clouder0/AIOB/main/logo.jpg" alt="Logo">
   </a>
 
 <h3 align="center">AIOB</h3>
