@@ -16,7 +16,7 @@ async def test_add_single_file(fixture_clean_db, fixture_md_file):
     assert len(opts) == 1
     x = opts[0]
     await x.execute()
-    ret: Data = db.query_src_data_by_id(src.Markdown, x.data.id)
+    ret: Data = db.query_data(src.Markdown, x.data.id)
     assert ret.title == fixture_md_file[1]
     assert ret.id == fixture_md_file[1]
     assert ret.content == fixture_md_file[2]
@@ -35,7 +35,7 @@ async def test_remove_single_file(fixture_clean_db, fixture_md_file):
     assert x.data.id == fixture_md_file[1]
     assert x.data.content == fixture_md_file[2]
     await x.execute()
-    assert db.query_src_data_by_id(src.Markdown, fixture_md_file[1]) is None
+    assert db.query_data(src.Markdown, fixture_md_file[1]) is None
 
 
 async def test_change_single_file(fixture_clean_db, fixture_md_file):

@@ -1,3 +1,5 @@
+"""The CLI entry for AIOB package."""
+
 from __future__ import annotations
 
 import typer

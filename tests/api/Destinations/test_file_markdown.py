@@ -17,7 +17,7 @@ async def test_path(fixture_reset_settings):
         / "title.md"
     )
     assert (
-        Destination.get_path(
+        Destination._get_path(
             Data(None, "id", "content", title="title", create_time="", update_time="")
         )
         == path

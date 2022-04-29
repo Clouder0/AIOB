@@ -11,7 +11,7 @@ from aiob.api.Sources.src_file_markdown.src_file_markdown import Markdown
 
 
 async def test_get_add_opt(fixture_md_file, fixture_clean_db):
-    opt: AddOpt = await Markdown.get_opt(fixture_md_file[0])
+    opt: AddOpt = await Markdown._get_opt(fixture_md_file[0])
     assert type(opt) == AddOpt
     assert opt.data.id == fixture_md_file[1]
     assert opt.data.content == fixture_md_file[2]
@@ -33,13 +33,13 @@ async def test_get_change_opt(fixture_md_file, fixture_clean_db):
             update_time=time,
         )
     )
-    opt: ChangeOpt = await Markdown.get_opt(fixture_md_file[0])
+    opt: ChangeOpt = await Markdown._get_opt(fixture_md_file[0])
     assert type(opt) == ChangeOpt
     assert opt.data.update_time == true_time
 
 
 async def test_remove_opt(fixture_md_file, fixture_clean_db):
-    opt: AddOpt = await Markdown.get_opt(fixture_md_file[0])
+    opt: AddOpt = await Markdown._get_opt(fixture_md_file[0])
     opt.data.dests = [Destination]
     await opt.execute()
     os.remove(fixture_md_file[0])
@@ -69,7 +69,7 @@ id: "id can be changed"
 
 content"""
     file = func_write_md_file(id, content)
-    opt: AddOpt = await Markdown.get_opt(file[0])
+    opt: AddOpt = await Markdown._get_opt(file[0])
     assert opt.data.create_time == "2022-04-23T22:05:30.655583"
     assert opt.data.update_time == "2022-04-23T22:05:30.655583"
     assert opt.data.title == "title"

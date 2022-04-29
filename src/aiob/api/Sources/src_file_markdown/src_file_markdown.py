@@ -1,3 +1,5 @@
+"""File Markdown Source Plugin."""
+
 from __future__ import annotations
 
 import asyncio
@@ -15,11 +17,11 @@ from aiob.api.opts import AddOpt, ChangeOpt, DelOpt
 from aiob.api.plugin_loader import source_class
 
 
-def get_isotime(timestamp: float) -> str:
+def _get_isotime(timestamp: float) -> str:
     return datetime.fromtimestamp(timestamp).isoformat()
 
 
-async def check_del(data: Data) -> DelOpt | None:
+async def _check_del(data: Data) -> DelOpt | None:
     if "origin_path" not in data.extras:
         return None
     path = pathlib.Path(data.extras["origin_path"])
@@ -30,10 +32,17 @@ async def check_del(data: Data) -> DelOpt | None:
 
 @source_class
 class Markdown(SourceBase):
+    """File Markdown Source Class."""
+
     name = "src_file_markdown"
 
     @classmethod
     async def get_opt_seq(cls) -> list[OptBase]:
+        """Get the operation sequence.
+
+        Returns:
+            list[OptBase]: The list of Opts generated.
+        """
         tasks: list[Coroutine[Any, Any, OptBase | None]] = []
         paths = cls.get_conf("paths", [])
         for root in paths:
@@ -42,22 +51,22 @@ class Markdown(SourceBase):
             for _, _, filenames in os.walk(root):
                 for file in filenames:
                     mdpath = pathlib.Path(os.path.join(root, file))
-                    tasks.append(cls.get_opt(mdpath))
+                    tasks.append(cls._get_opt(mdpath))
         add_change_seq: list[OptBase] = await asyncio.gather(*tasks)
 
         # DelOpts
         pass
         olds: list[Data] = db.query_src_datas(cls)
-        tasks = [check_del(x) for x in olds]
+        tasks = [_check_del(x) for x in olds]
         del_seq: list[OptBase] = await asyncio.gather(*tasks)
         return add_change_seq + del_seq
 
     @classmethod
-    async def get_opt(cls, mdpath: pathlib.Path) -> OptBase | None:
+    async def _get_opt(cls, mdpath: pathlib.Path) -> OptBase | None:
         async with aiofiles.open(mdpath, "r") as f:
             content = await f.read()
-            data = cls.parse(mdpath, content)
-        old: Data | None = db.query_src_data_by_id(cls, data.id)
+            data = cls._parse(mdpath, content)
+        old: Data | None = db.query_data(cls, data.id)
         if old is None:
             return AddOpt(data)
         if data.update_time <= old.update_time:
@@ -66,14 +75,14 @@ class Markdown(SourceBase):
         return ChangeOpt(data)
 
     @classmethod
-    def parse(cls, mdpath: pathlib.Path, content: str) -> Data:
+    def _parse(cls, mdpath: pathlib.Path, content: str) -> Data:
         post: frontmatter.Post = frontmatter.loads(content)
         id = mdpath.name.removesuffix(".md")
         title = id
         actual_content = post.content
         stat = mdpath.stat()
-        create_time = get_isotime(stat.st_ctime)
-        update_time = get_isotime(stat.st_mtime)
+        create_time = _get_isotime(stat.st_ctime)
+        update_time = _get_isotime(stat.st_mtime)
         data = Data(
             cls,
             id=id,

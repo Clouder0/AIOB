@@ -1,3 +1,5 @@
+"""Main module for AIOB CLI."""
+
 from __future__ import annotations
 
 import asyncio
@@ -9,7 +11,7 @@ from aiob.api.model import Data, OptBase
 from aiob.api.plugin_loader import dest_list
 
 
-def select_dest(data: Data) -> None:
+def _select_dest(data: Data) -> None:
     typer.echo(data)
     for i, x in enumerate(dest_list):
         typer.echo(f"{i}:{x.name}")
@@ -24,6 +26,7 @@ def select_dest(data: Data) -> None:
 
 
 def main() -> None:
+    """Execute main function for AIOB CLI."""
     typer.echo("AIOB running...")
     db.init_db()
     opts: list[OptBase] = [
@@ -31,6 +34,6 @@ def main() -> None:
     ]
     for x in opts:
         if len(x.data.dests) <= 0:
-            select_dest(x.data)
+            _select_dest(x.data)
     asyncio.run(bridge.exec_opts(opts))
     typer.echo("Finished!")

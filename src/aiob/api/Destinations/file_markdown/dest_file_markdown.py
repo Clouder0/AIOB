@@ -1,3 +1,5 @@
+"""File Markdown Destination Plugin."""
+
 from __future__ import annotations
 
 import dataclasses
@@ -13,10 +15,12 @@ from aiob.api.plugin_loader import destination_class
 
 @destination_class
 class Destination(DestinationBase):
+    """File Markdown Destination Class."""
+
     name = "dest_file_markdown"
 
     @classmethod
-    def get_path(cls, data: Data) -> pathlib.Path:
+    def _get_path(cls, data: Data) -> pathlib.Path:
         path = pathlib.Path(
             Destination.get_conf("path", os.getcwd() + "/") + data.title + ".md"
         )
@@ -24,19 +28,34 @@ class Destination(DestinationBase):
 
     @classmethod
     async def add(cls, data: Data) -> None:
-        path = cls.get_path(data)
+        """Perform Add Operation, write content to files.
+
+        Args:
+            data (Data): The Data to add.
+        """
+        path = cls._get_path(data)
         path.parent.mkdir(parents=True, exist_ok=True)
         async with aiofiles.open(path, "w+") as f:
             await f.write(cls._parse(data))
 
     @classmethod
     async def delete(cls, data: Data) -> None:
-        path = cls.get_path(data)
+        """Perform Delete Operation, delete the corresponding file on the filesystem.
+
+        Args:
+            data (Data): The Data to delete.
+        """
+        path = cls._get_path(data)
         os.remove(path)
 
     @classmethod
     async def change(cls, data: Data) -> None:
-        path = cls.get_path(data)
+        """Perform Change Operation, rewrite content to the corresponding file.
+
+        Args:
+            data (Data): The new Data.
+        """
+        path = cls._get_path(data)
         path.parent.mkdir(parents=True, exist_ok=True)
         async with aiofiles.open(path, "w+") as f:
             await f.write(cls._parse(data))

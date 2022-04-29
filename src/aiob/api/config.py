@@ -1,3 +1,5 @@
+"""Config Utility for AIOB."""
+
 from __future__ import annotations
 
 import os
