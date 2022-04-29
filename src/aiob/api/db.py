@@ -3,15 +3,16 @@
 from __future__ import annotations
 
 import atexit
+
 from typing import Any, Iterable
 
+from aiob.api import config, plugin_loader
+from aiob.api.model import Data, DestinationBase, SourceBase
 from tinydb import TinyDB, where
 from tinydb.middlewares import CachingMiddleware
 from tinydb.queries import QueryLike
 from tinydb.storages import JSONStorage
 
-from aiob.api import config, plugin_loader
-from aiob.api.model import Data, DestinationBase, SourceBase
 
 db: TinyDB
 

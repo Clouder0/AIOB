@@ -9,7 +9,9 @@ import sys
 
 import aiob.api.Destinations
 import aiob.api.Sources
+
 from aiob.api.model import DestinationBase, SourceBase
+
 
 src_list: list[type[SourceBase]] = []
 dest_list: list[type[DestinationBase]] = []

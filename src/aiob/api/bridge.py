@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import asyncio
+
 from typing import Iterable
 
 from aiob.api.model import OptBase

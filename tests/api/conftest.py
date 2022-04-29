@@ -1,13 +1,14 @@
 from __future__ import annotations
 
 import pathlib
+
 from copy import deepcopy
 
-import pytest
-from dynaconf import Dynaconf
-
 import aiob.api.config
+import pytest
+
 from aiob.api.Sources.src_file_markdown import src_file_markdown as src
+from dynaconf import Dynaconf
 
 
 @pytest.fixture(scope="session", autouse=True)

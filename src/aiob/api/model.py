@@ -8,6 +8,7 @@ from typing import Any
 
 from aiob.api import config
 
+
 data_metas: tuple[str, ...] = (
     "id",
     "create_time",
