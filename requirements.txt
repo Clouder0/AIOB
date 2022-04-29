@@ -1,20 +1,20 @@
-aiofiles==0.8.0
-aiohttp==3.8.1
-aiosignal==1.2.0 ; python_version >= "3.6"
-async-timeout==4.0.2 ; python_version >= "3.6"
-attrs==21.4.0 ; python_version >= "3.6"
-charset-normalizer==2.0.12 ; python_version >= "3.6"
-click==8.1.3 ; python_version >= "3.7"
-colorama==0.4.4
-dynaconf==3.1.8
-frozenlist==1.3.0 ; python_version >= "3.7"
-idna==3.3 ; python_version >= "3.6"
-importlib-metadata==4.11.3 ; python_version < "3.10"
-multidict==6.0.2 ; python_version >= "3.7"
+aiofiles==0.8.0; python_version >= "3.6" and python_version < "4.0"
+aiohttp==3.8.1; python_version >= "3.6"
+aiosignal==1.2.0; python_version >= "3.6"
+async-timeout==4.0.2; python_version >= "3.6"
+attrs==21.4.0; python_version >= "3.6" and python_full_version < "3.0.0" or python_full_version >= "3.5.0" and python_version >= "3.6"
+charset-normalizer==2.0.12; python_full_version >= "3.5.0" and python_version >= "3.6"
+click==8.1.3; python_version >= "3.7"
+colorama==0.4.4; (python_version >= "2.7" and python_full_version < "3.0.0") or (python_full_version >= "3.5.0")
+dynaconf==3.1.8; python_version >= "3.7"
+frozenlist==1.3.0; python_version >= "3.7"
+idna==3.3; python_version >= "3.6"
+importlib-metadata==4.11.3; python_version < "3.10"
+multidict==6.0.2; python_version >= "3.7"
 python-frontmatter==1.0.0
-pyyaml==6.0 ; python_version >= "3.6"
-shellingham==1.4.0
-tinydb==4.7.0
-typer==0.4.1
-yarl==1.7.2 ; python_version >= "3.6"
-zipp==3.8.0 ; python_version >= "3.7" and python_version < "3.10"
+pyyaml==6.0; python_version >= "3.6"
+shellingham==1.4.0; (python_version >= "2.6" and python_version < "3.0") or (python_version > "3.0" and python_version < "3.1") or (python_version > "3.1" and python_version < "3.2") or (python_version > "3.2" and python_version < "3.3") or (python_version > "3.3")
+tinydb==4.7.0; python_version >= "3.6" and python_version < "4.0"
+typer==0.4.1; python_version >= "3.6"
+yarl==1.7.2; python_version >= "3.6"
+zipp==3.8.0; python_version >= "3.7" and python_version < "3.10"
