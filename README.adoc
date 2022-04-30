@@ -1,0 +1,175 @@
+= README
+:toc: preamble
+:toclevels: 1
+include::README.adoc[tags=attr-badges]
+
+
+image::https://raw.githubusercontent.com/Clouder0/AIOB/main/logo.jpg[Logo, link=https://github.com/Clouder0/AIOB]
+
+[.text-center]
+The All In One Bridge for your Datas. +
+https://github.com/Clouder0/AIOB[*Explore the docs*]
+
+== 🌟 Badges
+
+image:{github-action-test-shield}[Test, link={github-action-test-url}]
+image:{codecov-shield}[Codecov, link={codecov-url}]
+image:{pre-commit-ci-shield}[pre-commit-ci, link={pre-commit-ci-url}]
+image:{pepy-shield}[pepy, link={pepy-url}]
+
+image:{release-shield}[release, link={release-url}]
+image:{pyversions-shield}[pyversions, link={pyversions-url}]
+image:{contributors-shield}[Contributors, link={contributors-url}]
+image:{forks-shield}[Forks, link={forks-url}]
+image:{stars-shield}[Stargazers, link={stars-url}]
+image:{issues-shield}[Issues, link={issues-url}]
+image:{license-shield}[Apache License 2.0, link={license-url}]
+image:{CodeFactor-shield}[CodeFactor, link={CodeFactor-url}]
+image:{code-style-black-shield}[Black, link={code-style-black-url}]
+
+== 💡 Introduction
+
+[WARNING]
+--
+Unfortunately, AIOB is still under initial development and hasn't been prepared for users.
+
+Several embeded sources/destinations will be added until the very first official release.
+
+Salient changes might be made to optimize project structures and so on.
+
+Please wait until version 0.1.0 is published.
+--
+
+[.text-right]
+<<#, back to top>>
+
+== ✨ Features
+
+[.text-right]
+<<#, back to top>>
+
+== 🎏 Getting Started
+
+[pass]
+<details> <summary>Click <b>Here</b> to Get Started Instantly.</summary>
+
+TODO.
+
+=== Installation
+
+[.text-right]
+<<#, back to top>>
+
+=== Command Line Interface
+
+[.text-right]
+<<#, back to top>>
+
+=== Configuration
+
+[.text-right]
+<<#, back to top>>
+
+=== Plugin System
+
+[.text-right]
+<<#, back to top>>
+
+[pass]
+</details>
+
+== 🗺️ Roadmap
+
+Please check out our https://github.com/users/Clouder0/projects/2[Github Project].
+
+See the https://github.com/Clouder0/AIOB/issues[open issues] for a full list of proposed features (and known issues).
+
+[.text-right]
+<<#, back to top>>
+
+== ❓ FAQ
+
+[.text-right]
+<<#, back to top>>
+
+== 💌 Contributing
+
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are *greatly appreciated*.
+
+If you have a suggestion that would make this better, please fork the repo and create a pull request. +
+You can also simply open an issue with the tag "enhancement". +
+Don't forget to give the project a star! Thanks again!
+
+. Fork the Project
+. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+. Push to the Branch (`git push origin feature/AmazingFeature`)
+. Open a Pull Request
+
+Don't forget to see our https://github.com/Clouder0/AIOB/blob/main/CONTRIBUTING.md[Contributing Guidelines] for details.
+
+[.text-right]
+<<#, back to top>>
+
+== 🙏 Acknowledgment
+
+There are various open source projects that AIOB depends on, without which this tool wouldn't exist. Credits to them!
+
+.Credit List
+* https://github.com/msiemens/tinydb[tinydb], MIT License
+* https://github.com/rochacbruno/dynaconf[Dynaconf], MIT License
+* https://github.com/Tinche/aiofiles[aiofiles], Apache License 2.0
+* https://github.com/eyeseast/python-frontmatter[python-frontmatter], MIT License
+* https://github.com/tiangolo/typer[typer], MIT License
+* https://github.com/aio-libs/aiohttp[aiohttp], Apache License 2.0
+* https://github.com/python/importlib_metadata[importlib_metadata], Apache License 2.0
+
+[.text-right]
+<<#, back to top>>
+
+== 📖 License
+
+Distributed under the Apache License 2.0. See `LICENSE` for more information.
+
+[.text-right]
+<<#, back to top>>
+
+== 📧 Contact
+
+Clouder0's email: clouder0@outlook.com
+
+Project Link: https://github.com/Clouder0/AIOB[https://github.com/Clouder0/AIOB]
+
+[.text-right]
+<<#, back to top>>
+
+// tag::attr-badges[]
+
+:contributors-shield: https://img.shields.io/github/contributors/Clouder0/AIOB.svg?style=for-the-badge
+:contributors-url: https://github.com/Clouder0/AIOB/graphs/contributors
+:forks-shield: https://img.shields.io/github/forks/Clouder0/AIOB.svg?style=for-the-badge
+:forks-url: https://github.com/Clouder0/AIOB/network/members
+:stars-shield: https://img.shields.io/github/stars/Clouder0/AIOB.svg?style=for-the-badge
+:stars-url: https://github.com/Clouder0/AIOB/stargazers
+:issues-shield: https://img.shields.io/github/issues/Clouder0/AIOB.svg?style=for-the-badge
+:issues-url: https://github.com/Clouder0/AIOB/issues
+:license-shield: https://img.shields.io/github/license/Clouder0/AIOB.svg?style=for-the-badge
+:license-url: https://github.com/Clouder0/AIOB/blob/main/LICENSE
+:github-action-test-shield: https://github.com/Clouder0/AIOB/actions/workflows/test.yml/badge.svg?branch=main
+:github-action-test-url: https://github.com/Clouder0/AIOB/actions/workflows/test.yml
+:codecov-shield: https://codecov.io/gh/Clouder0/AIOB/branch/main/graph/badge.svg?token=D2XT099AFB
+:codecov-url: https://codecov.io/gh/Clouder0/AIOB
+:pre-commit-ci-shield: https://results.pre-commit.ci/badge/github/Clouder0/AIOB/main.svg
+:pre-commit-ci-url: https://results.pre-commit.ci/latest/github/Clouder0/AIOB/main
+:code-style-black-shield: https://img.shields.io/badge/code%20style-black-000000.svg?style=for-the-badge
+:code-style-black-url: https://github.com/psf/black
+:pyversions-shield: https://img.shields.io/pypi/pyversions/aiob.svg?style=for-the-badge
+:pyversions-url: https://pypi.org/project/aiob/
+:release-shield: https://img.shields.io/github/release/Clouder0/AIOB.svg?style=for-the-badge
+:release-url: https://github.com/Clouder0/AIOB/releases
+:CodeFactor-shield: https://www.codefactor.io/repository/github/clouder0/aiob/badge/main?style=for-the-badge
+:CodeFactor-url: https://www.codefactor.io/repository/github/clouder0/aiob/overview/main
+:pepy-shield: https://static.pepy.tech/personalized-badge/aiob?period=total&units=international_system&left_color=grey&right_color=brightgreen&left_text=Downloads
+:pepy-url: https://pepy.tech/project/aiob
+
+// end::attr-badges[]

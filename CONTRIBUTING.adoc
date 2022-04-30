@@ -1,0 +1,24 @@
+= Contributing Guidelines
+
+[.lead]
+Contributions are mostly welcomed.
+
+CAUTION: Contributing Guidelines are currently under construction.
+
+== Feature Request
+
+== Bug Report
+
+== Code Contribution
+
+=== Set Up Dev Environment
+
+Here is a step-by-step tutorial on how to properly set up the dev environment for AIOB.
+
+==== Python Environment
+
+Python3.10 is the main python version AIOB used, while Python3.9 is also supposed to be supported. Ideally, you should install both versions.
+
+I recommend using `pyenv` to manage your python verions.
+
+NOTE: It is possible to develop AIOB with only Python3.9/3.10, however you will not be able to run `tox` to test in both supported Python versions.
