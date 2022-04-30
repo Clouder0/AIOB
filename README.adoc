@@ -50,33 +50,37 @@ Please wait until version 0.1.0 is published.
 
 == 🎏 Getting Started
 
-[pass]
-<details> <summary>Click <b>Here</b> to Get Started Instantly.</summary>
+.Click *Here* to Get Started Instantly.
+[%collapsible]
+====
 
 TODO.
 
+[discrete]
 === Installation
 
 [.text-right]
 <<#, back to top>>
 
+[discrete]
 === Command Line Interface
 
 [.text-right]
 <<#, back to top>>
 
+[discrete]
 === Configuration
 
 [.text-right]
 <<#, back to top>>
 
+[discrete]
 === Plugin System
 
 [.text-right]
 <<#, back to top>>
 
-[pass]
-</details>
+====
 
 == 🗺️ Roadmap
 
