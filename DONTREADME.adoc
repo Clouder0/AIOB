@@ -3,6 +3,9 @@
 :toclevels: 1
 include::README.adoc[tags=attr-badges]
 
+[.lead]
+Due to the fact that Github support asciidoc poorly, this README format is abandonded.
+
 
 image::https://raw.githubusercontent.com/Clouder0/AIOB/main/logo.jpg[Logo, link=https://github.com/Clouder0/AIOB]
 
