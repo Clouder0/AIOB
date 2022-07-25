@@ -7,7 +7,8 @@ import os
 import pathlib
 
 from datetime import datetime
-from typing import Any, Coroutine
+from typing import Any
+from collections.abc import Coroutine
 
 import aiofiles
 import frontmatter
