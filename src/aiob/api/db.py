@@ -4,7 +4,8 @@ from __future__ import annotations
 
 import atexit
 
-from typing import Any, Iterable
+from typing import Any
+from collections.abc import Iterable
 
 from aiob.api import config, plugin_loader
 from aiob.api.model import Data, DestinationBase, SourceBase
