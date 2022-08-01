@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import asyncio
 
-from typing import Iterable
+from collections.abc import Iterable
 
 from aiob.api.model import OptBase
 from aiob.api.plugin_loader import src_list
