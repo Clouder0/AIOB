@@ -6,9 +6,9 @@ import asyncio
 import os
 import pathlib
 
+from collections.abc import Coroutine
 from datetime import datetime
 from typing import Any
-from collections.abc import Coroutine
 
 import aiofiles
 import frontmatter
